@@ -6,15 +6,56 @@
   <script src="https://unpkg.com/react@17.0.0/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@17.0.0/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone@7.12.4/babel.js"></script>
+  <!-- <script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script> -->
   <script type="text/babel">
     // 🐨 Make a function called `message` which returns the JSX we want to share
+
+    // Using JSX
+    const Message = ({gretting, subject}) => {
+      return (
+        <div className="message">
+          {gretting}, {subject}
+        </div>
+      )
+    }
+
+    // Using React.createElement
+    const HelloWorldEL = React.createElement(Message, {
+      children: 'Hello World',
+    })
+    const GoodbyeWorldEL = React.createElement('div', {
+      className: 'message',
+      children: 'Goodbye World',
+    })
+
+    // Custom PropTypes
+    const PropTypes = {
+      string(props, propName, componentName) {
+        const type = typeof props[propName]
+        if (type !== 'string') {
+          return new Error(
+            `The component ${componentName} needs the prop ${propName} to be a string. But it's receive a ${type}'`,
+          )
+        }
+      },
+    }
+
+    Message.propTypes = {
+      gretting: PropTypes.string,
+      subject: PropTypes.string,
+    }
+
+    // Message.prototype = {
+    //   gretting: PropTypes.string.isRequired,
+    //   subject: PropTypes.string.isRequired,
+    // }
 
     // 🐨 use that function in place of the divs below with:
     // 💰 {message({children: 'Hello World'})} {message({children: 'Goodbye World'})}
     const element = (
       <div className="container">
-        <div className="message">Hello World</div>
-        <div className="message">Goodbye World</div>
+        <Message subject="World" />
+        {GoodbyeWorldEL}
       </div>
     )
 
